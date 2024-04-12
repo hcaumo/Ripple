@@ -84,7 +84,7 @@ New Architecture:(International investores payments using ripple)
 * Consider the red lines part from the new architecture
 
 
-Title: Installation
+Installation
 
 AWS Lambda Installation:
 
