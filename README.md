@@ -4,7 +4,8 @@ AWS Blockchain Tools Overview`
 
 Current Architecture for Brazillian Investors:
 
-![1 drawio (1)](https://github.com/hcaumo/Ripple/assets/65081463/cdb3095b-f625-4388-a890-b04d0b852967)
+![1xxxx drawio](https://github.com/hcaumo/Ripple/assets/65081463/0d42750b-5b80-42d2-9d5f-20c21d8921ee)
+
 
 
 This repository contains a collection of AWS Lambda functions designed to interact with blockchain technologies. Each function serves a specific purpose, facilitating operations like token deposits, permissions management, mathematical operations for blockchain, wallet generation, and token transfers.
