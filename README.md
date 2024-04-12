@@ -2,7 +2,7 @@ AWS Blockchain Tools Overview`
 
 
 
-Current Architecture for National Investors:
+Current Architecture for Brazillian Investors:
 
 ![1 drawio (1)](https://github.com/hcaumo/Ripple/assets/65081463/cdb3095b-f625-4388-a890-b04d0b852967)
 
@@ -68,7 +68,8 @@ Architecture using Ripple (International Investors Enabled):
 
 
 
-![2 drawio (1)](https://github.com/hcaumo/Ripple/assets/65081463/754166b0-0e4e-4e02-bc68-dc848d9c2d51)
+![2,xxx drawio](https://github.com/hcaumo/Ripple/assets/65081463/c885cbdb-9d18-42bb-bff8-ba99d0a5dbb8)
+
 
 
 New Architecture:(International investores payments using ripple)
@@ -87,11 +88,19 @@ New Architecture:(International investores payments using ripple)
 
 Installation
 
+DynamoDB:
+
+    Set a Dynamo DB name: WalletData, with primary key: Address
+
 AWS Lambda Installation:
 
     Upload to Lambda: Upload each individual zip file generated in "dist" folder to your AWS Lambda function using the latest Node.js Lambda architecture after this commands:
 
 In each folder:
+
+Write your MNEMONIC in the AWSGenerateWallet
+Write your Private Key in all the other folders
+All Lambdas less Deposit and Math must have the name of your dynamoDB.
 
     1. npm run prebuild
     2. npm run esbuild
@@ -100,6 +109,7 @@ In each folder:
 Smart Contract Installation:
 
     Compile and Deploy: Simply compile your smart contracts in Remix and deploy them to the desired network.
+
 
 Security and Usage
 
