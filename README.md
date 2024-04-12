@@ -4,7 +4,8 @@ AWS Blockchain Tools Overview`
 
 Current Architecture for Brazillian Investors:
 
-![1xxxx drawio](https://github.com/hcaumo/Ripple/assets/65081463/0d42750b-5b80-42d2-9d5f-20c21d8921ee)
+
+![1z drawio](https://github.com/hcaumo/Ripple/assets/65081463/beb3a49e-9c3c-429d-bee5-e40f4b16a454)
 
 
 
@@ -69,7 +70,7 @@ Architecture using Ripple (International Investors Enabled):
 
 
 
-![2,xxx drawio](https://github.com/hcaumo/Ripple/assets/65081463/c885cbdb-9d18-42bb-bff8-ba99d0a5dbb8)
+![2z drawio](https://github.com/hcaumo/Ripple/assets/65081463/483e37c2-4eb6-46dc-b811-1d7d987a757c)
 
 
 
