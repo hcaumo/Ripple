@@ -84,8 +84,7 @@ New Architecture:(International investores payments using ripple)
 * Consider the red lines part from the new architecture
 
 
-Just compile in Remix and Deploy.
-
+Title: Installation
 
 AWS Lambda Installation:
 
