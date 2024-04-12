@@ -1,0 +1,33 @@
+{
+  "name": "verifytGram",
+  "version": "1.0.0",
+  "private": true,
+  "license": "MIT",
+  "scripts": {
+    "start:dev": "nodemon",
+    "build": "npx tsc && mkdir dist && cp -R node_modules dist/ && tsc && mv ./build/* dist && (cd dist && zip -r ../function.zip .) && rm -rf build && rm -rf dist",
+    "prebuild": "rm -rf dist",
+    "esbuild": "esbuild src/index.ts --bundle --minify --sourcemap --platform=node --target=es2020 --outfile=dist/index.js",
+    "postbuild": "cd dist && zip -r index.zip index.js*"
+  },
+  "dependencies": {
+    "alchemy-sdk": "^2.2.5",
+    "aws-sdk": "^2.1310.0",
+    "axios": "^1.2.1",
+    "ethers": "^6.7.1",
+    "ethers-typescript-typings": "^0.0.4",
+    "node-fetch": "^3.3.2",
+    "solc": "^0.8.21",
+    "solc-typed-ast": "^16.0.0",
+    "uuid": "^9.0.1"
+  },
+  "devDependencies": {
+    "@types/aws-lambda": "^8.10.92",
+    "@types/jest": "^29.2.0",
+    "@types/node": "^18.11.18",
+    "esbuild": "^0.14.14",
+    "esbuild-jest": "^0.5.0",
+    "nodemon": "^2.0.20",
+    "ts-node": "^10.9.1"
+  }
+}
