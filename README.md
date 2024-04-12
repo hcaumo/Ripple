@@ -67,7 +67,8 @@ Bubble.io:
 Architecture using Ripple (International Investors Enabled):
 
 
-![2 drawio](https://github.com/hcaumo/Ripple/assets/65081463/3b4441bd-e13d-40f0-b764-28d0651c321c)
+
+![2 drawio (1)](https://github.com/hcaumo/Ripple/assets/65081463/754166b0-0e4e-4e02-bc68-dc848d9c2d51)
 
 
 New Architecture:(International investores payments using ripple)
