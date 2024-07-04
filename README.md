@@ -28,19 +28,19 @@ The architecture consists of several microservices deployed as AWS Lambda functi
    - Users interact with the platform through a Bubble.io frontend.
    
 2. **Bubble.io Frontend**
-   - Provides the user interface for purchasing investments and interacting with their wallets.
+   - Provides the user interface for purchasing investments and interacting with their wallets by our backend.
 
 3. **AWS Lambda Microservices**
-   - **AML Checker**: Checks user compliance and updates user status in the database.
-   - **Wallet Generator**: Generates new wallets and encrypts private keys.
-   - **Deposit**: Handles deposit transactions.
-   - **Transfer Financial Instrument**: Manages the transfer of financial instruments.
-   - **Transfer Stablecoin**: Manages the transfer of stablecoins.
+   - **AML Checker**: Checks user compliance and updates user status in the bubble database.
+   - **Wallet Generator**: Generates new wallets and encrypts private keys using Encrypt PrivateKey Lambda and KMS.
+   - **Deposit**: Handles bank deposit transactions and mint a stablecoin in the user wallet.
+   - **Transfer Financial Instrument**: Manages the transfer of financial instruments from the securitization company to user wallet.
+   - **Transfer Stablecoin**: Manages the transfer of stablecoins from the user wallet to the securitization company.
    - **Encrypt PrivateKey**: Encrypts private keys using AWS KMS.
    - **Decrypt PrivateKey**: Decrypts private keys using AWS KMS.
 
 4. **DynamoDB**
-   - Stores encrypted private keys and user statuses.
+   - Stores encrypted private keys and user wallet address.
 
 5. **AWS KMS**
    - Provides encryption and decryption of private keys.
@@ -54,7 +54,7 @@ The architecture consists of several microservices deployed as AWS Lambda functi
 
 ## Installation
 
-This platform is known to run on AWS and can be managed through the AWS Management Console and AWS CLI.
+This platform is known to run on AWS, Bubble.io and XRPL.
 
 ### Steps to Install and Configure
 
@@ -64,7 +64,7 @@ This platform is known to run on AWS and can be managed through the AWS Manageme
 
 2. **Deploy DynamoDB**
 
-   Create a DynamoDB table to store encrypted private keys and user statuses.
+   Create a DynamoDB table to store encrypted private keys and user wallet addresses.
 
 3. **Setup AWS KMS**
 
@@ -101,11 +101,11 @@ This platform is known to run on AWS and can be managed through the AWS Manageme
 
 2. **AML Check**
 
-   - The AML Checker Lambda function validates user transactions and updates the user status in DynamoDB.
+   - The AML Checker Lambda function validates if a user can create an account on the platform and if the user can withdraw money from the platform.
 
 3. **Wallet Generation and Encryption**
 
-   - The Wallet Generator Lambda function generates wallets and encrypts private keys using the Encrypt PrivateKey Lambda function.
+   - The Wallet Generator Lambda function generates wallets and encrypts private keys using the Encrypt PrivateKey Lambda function and KMS.
 
 4. **Purchasing Investments**
 
@@ -121,20 +121,3 @@ This platform is known to run on AWS and can be managed through the AWS Manageme
 
    - Configure logs and alerts for real-time monitoring and issue resolution.
 
-## Maintenance
-
-1. **Updating Lambda Functions**
-
-   - Update the Lambda functions as needed to handle new requirements or improvements.
-
-2. **Database Maintenance**
-
-   - Regularly back up DynamoDB and ensure KMS keys are rotated as per security policies.
-
-3. **Smart Contract Updates**
-
-   - Monitor and update smart contracts on the XRPL ledger as necessary to align with protocol updates or business logic changes.
-
-## Querying Data
-
-Data can be queried directly from DynamoDB or through API Gateway endpoints configured in Bubble.io.
