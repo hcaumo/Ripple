@@ -1,68 +1,140 @@
-AWS Blockchain Tools Overview`
+# SME Investment Platform
 
+**SME Investment Platform** is an investment platform designed to facilitate the sale of credit from SMEs (Small and Medium-sized Enterprises) as securitized financial products to debt investors. The platform leverages the XRPL blockchain to issue financial instruments and stablecoins for accounting purposes. The frontend is developed using Bubble.io, while AWS handles the backend operations, including interactions with the XRPL ledger.
 
+## What is SME Investment Platform?
 
-Current Architecture for Brazillian Investors:
+**SME Investment Platform** enables the sale of securitized SME credits to investors in Europe. The credits are provided by a securitization company in Brazil, and the platform uses the XRPL blockchain to manage financial instruments and stablecoins. The platform ensures secure transactions through encrypted private keys stored in AWS DynamoDB and decrypted using AWS KMS.
 
+## Requirements
 
-![1z drawio](https://github.com/hcaumo/Ripple/assets/65081463/beb3a49e-9c3c-429d-bee5-e40f4b16a454)
+- AWS Lambda
+- AWS DynamoDB
+- AWS KMS
+- XRPL RPC access
+- Bubble.io for frontend interactions
 
+## Architecture
 
+### Architecture Overview
 
-This repository contains a collection of AWS Lambda functions designed to interact with blockchain technologies. Each function serves a specific purpose, facilitating operations like token deposits, permissions management, mathematical operations for blockchain, wallet generation, and token transfers.
-Tools Included
+The architecture consists of several microservices deployed as AWS Lambda functions, interacting with DynamoDB and XRPL RPC. The system includes AML checks to ensure compliance and secure transactions.
 
-AWSDeposit
+![architecture_overview](https://github.com/hcaumo/Ripple/assets/65081463/a1b75f3c-3e50-4daf-90b0-8f69485f3ba6)
 
-    Description: Handles deposits of cryptocurrency into specified wallet addresses.
-    Main Features: Validates deposit requests and interacts with blockchain to deposit tokens.
+## Components
 
-AWSPermit
+1. **User Interaction**
+   - Users interact with the platform through a Bubble.io frontend.
+   
+2. **Bubble.io Frontend**
+   - Provides the user interface for purchasing investments and interacting with their wallets.
 
-    Description: Manages permissions within smart contracts to allow or restrict user actions.
-    Main Features: Sets and revokes permissions using Ethereum smart contract calls.
+3. **AWS Lambda Microservices**
+   - **AML Checker**: Checks user compliance and updates user status in the database.
+   - **Wallet Generator**: Generates new wallets and encrypts private keys.
+   - **Deposit**: Handles deposit transactions.
+   - **Transfer Financial Instrument**: Manages the transfer of financial instruments.
+   - **Transfer Stablecoin**: Manages the transfer of stablecoins.
+   - **Encrypt PrivateKey**: Encrypts private keys using AWS KMS.
+   - **Decrypt PrivateKey**: Decrypts private keys using AWS KMS.
 
-AWSMath
+4. **DynamoDB**
+   - Stores encrypted private keys and user statuses.
 
-    Description: Provides mathematical calculations required for transaction processing or smart contract interactions.
-    Main Features: Processes complex math operations and returns results to the caller.
+5. **AWS KMS**
+   - Provides encryption and decryption of private keys.
 
-AWSWalletGenerator
+6. **XRPL RPC**
+   - Interacts with smart contracts on the XRPL ledger for financial transactions.
 
-    Description: Generates new blockchain wallet addresses and keys.
-    Main Features: Uses cryptographic libraries to ensure secure key generation.
+7. **Smart Contracts**
+   - **Financial Instrument Smart Contract**
+   - **Stablecoin Smart Contract**
 
-AWSTransferFromOriginatorToUser
+## Installation
 
-    Description: Facilitates the transfer of tokens from an asset originator to a user's wallet.
-    Main Features: Validates transaction details and executes the transfer using smart contracts.
+This platform is known to run on AWS and can be managed through the AWS Management Console and AWS CLI.
 
-AWSTransferFromUserToOriginator
+### Steps to Install and Configure
 
-    Description: Manages the reverse transfer of tokens from users back to the originator.
-    Main Features: Ensures secure and validated transfer operations back to the originator's wallet.
+1. **Setup AWS Environment**
 
+   Ensure you have an AWS account and the AWS CLI configured. Install necessary tools and create required IAM roles and policies.
 
-Bubble.io:
+2. **Deploy DynamoDB**
 
-    Frontend Architecture: Choosing Bubble.io over ReactJS
-    Why Bubble.io?
+   Create a DynamoDB table to store encrypted private keys and user statuses.
 
-    In our continuous effort to streamline development and enhance the security of our applications, we have transitioned our frontend development from ReactJS to Bubble.io. This strategic shift responds to our team's size and the need for agility and security in our application deployments.
+3. **Setup AWS KMS**
 
-    1. Development Speed and Efficiency:
-    Our team, being relatively small, requires a development platform that allows us to move quickly without sacrificing quality. Bubble.io enables us to build and iterate faster than traditional programming in ReactJS. This rapid development cycle is crucial for meeting project deadlines and responding swiftly to market or regulatory changes.
+   Create KMS keys for encrypting and decrypting private keys.
 
-    2. Enhanced Security:
-    Security is a cornerstone of our development philosophy. By adopting Bubble.io, we leverage a platform that is SOC 2 Type 2 compliant, with rigorous security audits that our previous ReactJS-based implementations could not easily achieve. Bubble.io's managed environment reduces our exposure to common security pitfalls associated with custom code and manual security configurations.
+4. **Deploy Lambda Functions**
 
-    3. Data Protection and Compliance:
-    Compliance with data protection regulations is simpler and more robust with Bubble.io. The platform's built-in security measures ensure that all data handled is secure and compliant with the latest data protection laws. This is a significant advantage over custom-built ReactJS applications, where each project might require separate compliance validations.
+   Deploy the following Lambda functions using AWS Lambda console or AWS CLI:
+   - AML Checker
+   - Wallet Generator
+   - Deposit
+   - Transfer Financial Instrument
+   - Transfer Stablecoin
+   - Encrypt PrivateKey
+   - Decrypt PrivateKey
 
-    4. Integration with Secure Tools:
-    Our use of Bubble.io is complemented by our backend services on AWS, which also adheres to SOC 2 Type 2 standards. This combination ensures that both the tools we use to send and receive information are consistently updated against vulnerabilities and are audited more extensively than what we could perform with tailor-made ReactJS code in every project.
-    Conclusion
+5. **Configure API Gateway**
 
-    By integrating Bubble.io into our development stack, we not only accelerate our development processes but also enhance the overall security and compliance posture of our applications. This approach allows us to focus more on feature development and less on the complexities of backend maintenance and security compliance, delivering a secure, compliant, and efficient solution to our users.
+   Set up API Gateway to trigger the Lambda functions based on API requests from Bubble.io.
 
+6. **Setup Bubble.io Frontend**
 
+   Use Bubble.io to create the user interface for interacting with the platform. Integrate with AWS API Gateway for backend operations.
+
+7. **Integrate with XRPL RPC**
+
+   Ensure secure access to XRPL RPC for interacting with smart contracts on the XRPL ledger.
+
+## Running the Service
+
+1. **User Operations**
+
+   - Users can create wallets, make deposits, and purchase financial instruments or stablecoins through the Bubble.io frontend.
+
+2. **AML Check**
+
+   - The AML Checker Lambda function validates user transactions and updates the user status in DynamoDB.
+
+3. **Wallet Generation and Encryption**
+
+   - The Wallet Generator Lambda function generates wallets and encrypts private keys using the Encrypt PrivateKey Lambda function.
+
+4. **Purchasing Investments**
+
+   - When a user tries to purchase an investment, Bubble.io sends a request to AWS, triggering a Lambda function that retrieves the private key from DynamoDB, decrypts it using KMS, and performs the transaction on the XRPL ledger.
+
+## Monitoring the Service
+
+1. **CloudWatch Monitoring**
+
+   - Use AWS CloudWatch to monitor Lambda functions and DynamoDB for performance and errors.
+
+2. **Logs and Alerts**
+
+   - Configure logs and alerts for real-time monitoring and issue resolution.
+
+## Maintenance
+
+1. **Updating Lambda Functions**
+
+   - Update the Lambda functions as needed to handle new requirements or improvements.
+
+2. **Database Maintenance**
+
+   - Regularly back up DynamoDB and ensure KMS keys are rotated as per security policies.
+
+3. **Smart Contract Updates**
+
+   - Monitor and update smart contracts on the XRPL ledger as necessary to align with protocol updates or business logic changes.
+
+## Querying Data
+
+Data can be queried directly from DynamoDB or through API Gateway endpoints configured in Bubble.io.
