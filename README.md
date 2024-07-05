@@ -1,4 +1,4 @@
-# SME Investment Platform
+# Drexfy
 
 **Drexfy** is a platform designed to facilitate the sale of credit from SMEs (Small and Medium-sized Enterprises) as securitized financial products to debt investors. The platform leverages the XRPL blockchain to issue financial instruments and stablecoins for accounting purposes.
 
@@ -8,13 +8,13 @@ The frontend is developed using Bubble.io, providing an intuitive user interface
 
 **Drexfy** enables the sale of securitized SME credits to investors in Europe. The credits are provided by a securitization company in Brazil, and the platform uses the XRPL blockchain to manage financial instruments and stablecoins. The platform ensures secure transactions through encrypted private keys stored in AWS DynamoDB and decrypted using AWS KMS.
 
-## Requirements
+## Technology
 
 - AWS Lambda
 - AWS DynamoDB
 - AWS KMS
-- XRPL RPC access
 - Bubble.io for frontend interactions
+- Third-Party KYC/AML
 
 ## Architecture
 
@@ -30,10 +30,10 @@ The architecture consists of several microservices deployed as AWS Lambda functi
    - Users interact with the platform through a Bubble.io frontend.
    
 2. **Bubble.io Frontend**
-   - Provides the user interface for purchasing investments and interacting with their wallets by our backend.
+   - Provides the user interface for register or purchasing investments and interacting with their wallets by our backend.
 
 3. **AWS Lambda Microservices**
-   - **AML Checker**: Checks user compliance and updates user status in the bubble database.
+   - **AML Checker**: Waits for a WebHook from a third-party service, as all users who register on the platform are in a screening process. If there is any change, this Lambda sends information to the frontend to block the user.
    - **Wallet Generator**: Generates new wallets and encrypts private keys using Encrypt PrivateKey Lambda and KMS.
    - **Deposit**: Handles bank deposit transactions and mints stablecoins in the user wallet.
    - **Transfer Financial Instrument**: Manages the transfer of financial instruments from the securitization company to user wallets.
@@ -48,18 +48,18 @@ The architecture consists of several microservices deployed as AWS Lambda functi
    - Provides encryption and decryption of private keys.
 
 6. **XRPL RPC**
-   - Interacts with smart contracts on the XRPL ledger for financial transactions.
+   - Interacts with smart contracts on the XRPL ledger.
 
 7. **Smart Contracts**
    - **Financial Instrument Smart Contract**
    - **Stablecoin Smart Contract**
 
 8. **Third-Party KYC/AML Service**
-   - Integrates with the platform via WebHook to perform KYC and AML checks, ensuring compliance and blocking users if their AML status changes.
+   - Integrates with the platform to perform KYC and receive webhook AML checks, ensuring compliance and blocking users if their AML status changes.
 
 ## Installation
 
-This platform is known to run on AWS, Bubble.io, and XRPL.
+This platform run on AWS, Bubble.io, and XRPL.
 
 ### Steps to Install and Configure
 
