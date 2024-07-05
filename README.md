@@ -110,7 +110,7 @@ This platform run on AWS, Bubble.io, and XRPL.
 
 2. **AML Check**
 
-   - The AML Checker Lambda function validates if a user can create an account on the platform and if the user can withdraw money from the platform.
+   - The AML Checker Lambda function waits for a WebHook from a third-party service, as all users who register on the platform are in a screening process. If there is any change, this Lambda sends information to the frontend to block the user.
 
 3. **Wallet Generation and Encryption**
 
