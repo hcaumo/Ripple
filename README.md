@@ -2,7 +2,7 @@
 
 **Drexfy** Drexfy is an investment platform that facilitates the sale of SME (Small and Medium-sized Enterprises) credit as securitized financial products to debt investors in Europe. The platform leverages the XRPL blockchain to issue a non-collateralized stablecoin and financial instruments.
 
-The frontend, developed with Bubble.io, offers an intuitive user interface for investors. On the backend, AWS services handle all operations, including interactions with the XRPL ledger. The platform also integrates a third-party service for KYC and AML checks, ensuring compliance and enhancing security through WebHook notifications.
+The frontend, developed with Bubble.io, offers an intuitive user interface for investors. On the backend, AWS services handle all operations, including interactions with the XRPL. The platform also integrates a third-party service for KYC and AML checks, ensuring compliance and enhancing security through WebHook notifications.
 
 ## Requirements
 
