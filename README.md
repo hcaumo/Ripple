@@ -52,13 +52,15 @@ The architecture consists of several microservices deployed as AWS Lambda functi
 
 ## Process
 
+
+
 ### Register Process
 
 The registration process is a component of the platform, ensuring that all users undergo thorough KYC and AML checks to maintain the compliance and security.
 
-![register_process](https://github.com/hcaumo/Ripple/assets/65081463/42d7aa6b-8f8d-400c-b50b-aafebf422f8a)
-
 **Registration Workflow:**
+
+![register_process](https://github.com/hcaumo/Ripple/assets/65081463/42d7aa6b-8f8d-400c-b50b-aafebf422f8a)
 
 1. **User Registration**:
    - Users start by interacting with the Bubble.io frontend to register on the platform.
@@ -78,9 +80,11 @@ This process ensures that all users are thoroughly vetted before they can partic
 
 **Drexfy** provides a seamless experience for investors looking to purchase securitized SME credits. The platform leverages advanced blockchain technology and robust AWS services to manage and execute these transactions securely and efficiently.
 
-![buy_investment_process](https://github.com/hcaumo/Ripple/assets/65081463/ff567e70-46c4-4f44-b675-cc0d25d0624e)
+
 
 ### Investment Purchase Workflow:
+
+![buy_investment_process](https://github.com/hcaumo/Ripple/assets/65081463/ff567e70-46c4-4f44-b675-cc0d25d0624e)
 
 1. **User Initiation**:
     - The investment purchase process begins when a user initiates a purchase through the Bubble.io frontend and opens the payment gateway checkout.
