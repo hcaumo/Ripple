@@ -60,7 +60,8 @@ The registration process is a component of the platform, ensuring that all users
 
 **Registration Workflow:**
 
-![register_process](https://github.com/hcaumo/Ripple/assets/65081463/42d7aa6b-8f8d-400c-b50b-aafebf422f8a)
+![register_process](https://github.com/hcaumo/Ripple/assets/65081463/3996b464-5764-43ea-b062-dbc903403574)
+
 
 1. **User Registration**:
    - Users start by interacting with the Bubble.io frontend to register on the platform.
