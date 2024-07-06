@@ -1,4 +1,4 @@
-# Drexfy
+# DREXFY
 
 **Drexfy** is a platform designed to facilitate the sale of credit from SMEs (Small and Medium-sized Enterprises) as securitized financial products to debt investors. The platform leverages the XRPL blockchain to issue financial instruments and stablecoins for accounting purposes.
 
@@ -15,6 +15,14 @@ The frontend is developed using Bubble.io, providing an intuitive user interface
 - AWS KMS
 - XRPL RPC access
 - Bubble.io for frontend interactions
+
+## Architecture
+
+### Architecture Overview
+
+The architecture consists of several microservices deployed as AWS Lambda functions, interacting with DynamoDB and XRPL RPC. The system includes AML checks to ensure compliance and secure transactions.
+
+![architecture_overview](https://github.com/hcaumo/Ripple/assets/65081463/914ca162-c1ca-490d-8e6c-0f4f0f0343ec)
 
 ## Components
 
@@ -49,10 +57,90 @@ The frontend is developed using Bubble.io, providing an intuitive user interface
 8. **Third-Party KYC/AML Service**
    - Integrates with the platform via WebHook to perform KYC and AML checks, ensuring compliance and blocking users if their AML status changes.
 
+## Installation
+
+This platform is known to run on AWS, Bubble.io, and XRPL.
+
+### Steps to Install and Configure
+
+1. **Setup AWS Environment**
+
+   Ensure you have an AWS account and the AWS CLI configured. Install necessary tools and create required IAM roles and policies.
+
+2. **Deploy DynamoDB**
+
+   Create a DynamoDB table to store encrypted private keys and user wallet addresses.
+
+3. **Setup AWS KMS**
+
+   Create KMS keys for encrypting and decrypting private keys.
+
+4. **Deploy Lambda Functions**
+
+   Deploy the following Lambda functions using the AWS Lambda console or AWS CLI:
+   - AML Checker
+   - Wallet Generator
+   - Deposit
+   - Transfer Financial Instrument
+   - Transfer Stablecoin
+   - Encrypt PrivateKey
+   - Decrypt PrivateKey
+
+5. **Configure API Gateway**
+
+   Set up API Gateway to trigger the Lambda functions based on API requests from Bubble.io.
+
+6. **Setup Bubble.io Frontend**
+
+   Use Bubble.io to create the user interface for interacting with the platform. Integrate with AWS API Gateway for backend operations.
+
+7. **Integrate with XRPL RPC**
+
+   Ensure secure access to XRPL RPC for interacting with smart contracts on the XRPL ledger. **Implement Authorized Trust Lines setup.**
+
+8. **Integrate Third-Party KYC/AML Service**
+
+   Configure the WebHook integration to receive updates on the KYC/AML status of users and take necessary actions within the platform.
+
+## Running the Service
+
+1. **User Operations**
+
+   - Users can create wallets, make deposits, and purchase financial instruments or stablecoins through the Bubble.io frontend.
+
+2. **AML Check**
+
+   - The AML Checker Lambda function waits for a WebHook from a third-party service, as all users who register on the platform are in a screening process. If there is any change, this Lambda sends information to the frontend to block the user.
+
+3. **Wallet Generation and Encryption**
+
+   - The Wallet Generator Lambda function generates wallets, encrypts private keys using the Encrypt PrivateKey Lambda function and KMS, deposits 10 XRP to activate the wallet, and supports Authorized Trust Lines in XRPL.
+
+4. **Purchasing Investments**
+
+   - When a user tries to purchase an investment, Bubble.io sends a request to AWS, triggering a Lambda function that retrieves the private key from DynamoDB, decrypts it using KMS, and performs the transaction on the XRPL ledger.
+
+5. **Setting Up Authorized Trust Line**
+
+   - Before a deposit is accepted, the platform must create an authorized trust line. The **Deposit** Lambda function includes a step to create the authorized trust line using XRPL RPC before minting stablecoins in the user's wallet.
+
+## Monitoring the Service
+
+1. **CloudWatch Monitoring**
+
+   - Use AWS CloudWatch to monitor Lambda functions and DynamoDB for performance and errors.
+
+2. **Logs and Alerts**
+
+   - Configure logs and alerts for real-time monitoring and issue resolution.
+
+## Narratives
+
 ### Register Process
 
 **Drexfy** is an innovative platform designed to facilitate the sale of credit from SMEs (Small and Medium-sized Enterprises) as securitized financial products to debt investors. The registration process is a critical component of the platform, ensuring that all users undergo thorough KYC and AML checks to maintain the highest standards of compliance and security.
-![register_process](https://github.com/hcaumo/Ripple/assets/65081463/9c7d5836-7983-4b94-ace5-787c565f125c)
+
+![register_process](https://github.com/hcaumo/Ripple/assets/65081463/42d7aa6b-8f8d-400c-b50b-aafebf422f8a)
 
 **Registration Workflow:**
 
@@ -61,8 +149,6 @@ The frontend is developed using Bubble.io, providing an intuitive user interface
    
 2. **KYC/AML Check**:
    - Bubble.io sends user details to a third-party service for KYC and AML checks.
-   - If any issues are found, the third-party service sends a WebHook to the AML Checker Lambda function.
-   - The AML Checker updates the user's status in the Bubble.io database, blocking them if necessary.
    
 3. **Wallet Generation**:
    - Once the user passes the KYC/AML check, Bubble.io triggers the Wallet Generator Lambda function via API Gateway.
@@ -75,6 +161,7 @@ This process ensures that all users are thoroughly vetted before they can partic
 ### Buy Investment Process
 
 **Drexfy** provides a seamless experience for investors looking to purchase securitized SME credits. The platform leverages advanced blockchain technology and robust AWS services to manage and execute these transactions securely and efficiently.
+
 ![buy_investment_process](https://github.com/hcaumo/Ripple/assets/65081463/7ff73f5b-9f89-497c-a82f-6bf21db1da4a)
 
 **Investment Purchase Workflow:**
@@ -90,6 +177,7 @@ This process ensures that all users are thoroughly vetted before they can partic
      - It first triggers the Decrypt PrivateKey Lambda function to retrieve and decrypt the user's private key from AWS DynamoDB using AWS KMS.
      - It then interacts with the XRPL RPC to perform the necessary operations on the blockchain, including setting up Authorized Trust Lines.
      - It also triggers the Transfer Stablecoin Lambda function.
+     - It interacts with the XRPL RPC for recording the stablecoin transaction.
 
 4. **Stablecoin Transfer**:
    - The Transfer Stablecoin function manages the transfer of stablecoins from the user's wallet to the securitization company.
@@ -100,3 +188,23 @@ This process ensures that all users are thoroughly vetted before they can partic
    - The Transfer Financial Instrument function handles the transfer of financial instruments from the securitization company to the user's wallet, completing the investment purchase process.
 
 This comprehensive workflow ensures that all investment transactions are executed with the highest level of security and compliance, providing a trustworthy and efficient platform for investors and SMEs alike.
+
+### WebHook Notification Process
+
+In **Drexfy**, maintaining compliance with AML regulations is crucial. If a user fails an AML check after registration, the platform takes immediate action to ensure security and compliance.
+
+**WebHook Notification Workflow:**
+
+This workflow ensures that **Drexfy** remains compliant with AML regulations and provides a secure environment for all transactions.
+
+![webhook_notification_process](https://github.com/hcaumo/Ripple/assets/65081463/2066663a-83a9-457d-9dd4-c3fe8d7cbe5d)
+
+1. **AML Rejection Notification**:
+   - The third-party service continuously monitors users for any changes in their AML status.
+   - If a user is flagged for AML issues, the third-party service sends a WebHook notification to the Bubble.io frontend.
+
+2. **User Blocking**:
+   - Upon receiving the WebHook, Bubble.io updates the user's status in the database.
+   - The user's account is flagged, and they are blocked from making any purchases on the platform until the issue is resolved.
+
+
