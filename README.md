@@ -16,14 +16,6 @@ The frontend is developed using Bubble.io, providing an intuitive user interface
 - XRPL RPC access
 - Bubble.io for frontend interactions
 
-## Architecture
-
-### Architecture Overview
-
-The architecture consists of several microservices deployed as AWS Lambda functions, interacting with DynamoDB and XRPL RPC. The system includes AML checks to ensure compliance and secure transactions.
-
-![architecture_overview](https://github.com/hcaumo/Ripple/assets/65081463/914ca162-c1ca-490d-8e6c-0f4f0f0343ec)
-
 ## Components
 
 1. **User Interaction**
@@ -57,51 +49,6 @@ The architecture consists of several microservices deployed as AWS Lambda functi
 8. **Third-Party KYC/AML Service**
    - Integrates with the platform via WebHook to perform KYC and AML checks, ensuring compliance and blocking users if their AML status changes.
 
-## Installation
-
-This platform is known to run on AWS, Bubble.io, and XRPL.
-
-### Steps to Install and Configure
-
-1. **Setup AWS Environment**
-
-   Ensure you have an AWS account and the AWS CLI configured. Install necessary tools and create required IAM roles and policies.
-
-2. **Deploy DynamoDB**
-
-   Create a DynamoDB table to store encrypted private keys and user wallet addresses.
-
-3. **Setup AWS KMS**
-
-   Create KMS keys for encrypting and decrypting private keys.
-
-4. **Deploy Lambda Functions**
-
-   Deploy the following Lambda functions using the AWS Lambda console or AWS CLI:
-   - AML Checker
-   - Wallet Generator
-   - Deposit
-   - Transfer Financial Instrument
-   - Transfer Stablecoin
-   - Encrypt PrivateKey
-   - Decrypt PrivateKey
-
-5. **Configure API Gateway**
-
-   Set up API Gateway to trigger the Lambda functions based on API requests from Bubble.io.
-
-6. **Setup Bubble.io Frontend**
-
-   Use Bubble.io to create the user interface for interacting with the platform. Integrate with AWS API Gateway for backend operations.
-
-7. **Integrate with XRPL RPC**
-
-   Ensure secure access to XRPL RPC for interacting with smart contracts on the XRPL ledger. **Implement Authorized Trust Lines setup.**
-
-8. **Integrate Third-Party KYC/AML Service**
-
-   Configure the WebHook integration to receive updates on the KYC/AML status of users and take necessary actions within the platform.
-
 ## Running the Service
 
 1. **User Operations**
@@ -133,3 +80,57 @@ This platform is known to run on AWS, Bubble.io, and XRPL.
 2. **Logs and Alerts**
 
    - Configure logs and alerts for real-time monitoring and issue resolution.
+
+## Process
+
+### Register Process
+
+**Drexfy** is an innovative platform designed to facilitate the sale of credit from SMEs (Small and Medium-sized Enterprises) as securitized financial products to debt investors. The registration process is a critical component of the platform, ensuring that all users undergo thorough KYC and AML checks to maintain the highest standards of compliance and security.
+![register_process](https://github.com/hcaumo/Ripple/assets/65081463/9c7d5836-7983-4b94-ace5-787c565f125c)
+
+**Registration Workflow:**
+
+1. **User Registration**:
+   - Users start by interacting with the Bubble.io frontend to register on the platform.
+   
+2. **KYC/AML Check**:
+   - Bubble.io sends user details to a third-party service for KYC and AML checks.
+   - If any issues are found, the third-party service sends a WebHook to the AML Checker Lambda function.
+   - The AML Checker updates the user's status in the Bubble.io database, blocking them if necessary.
+   
+3. **Wallet Generation**:
+   - Once the user passes the KYC/AML check, Bubble.io triggers the Wallet Generator Lambda function via API Gateway.
+   - The Wallet Generator Lambda function generates a new wallet, encrypts the private key using the Encrypt PrivateKey Lambda function and AWS KMS.
+   - The encrypted private key is stored in AWS DynamoDB.
+   - To activate the wallet, 10 XRP is deposited, making the wallet capable of supporting Authorized Trust Lines in the XRPL.
+
+This process ensures that all users are thoroughly vetted before they can participate in the platform, maintaining compliance with financial regulations and providing a secure environment for all transactions.
+
+### Buy Investment Process
+
+**Drexfy** provides a seamless experience for investors looking to purchase securitized SME credits. The platform leverages advanced blockchain technology and robust AWS services to manage and execute these transactions securely and efficiently.
+![buy_investment_process](https://github.com/hcaumo/Ripple/assets/65081463/7ff73f5b-9f89-497c-a82f-6bf21db1da4a)
+
+**Investment Purchase Workflow:**
+
+1. **User Initiation**:
+   - The investment purchase process begins when a user initiates a purchase through the Bubble.io frontend.
+
+2. **Triggering Backend Services**:
+   - Bubble.io sends a request to the AWS API Gateway, which triggers the Deposit Lambda function.
+
+3. **Deposit Handling**:
+   - The Deposit Lambda function performs several critical tasks:
+     - It first triggers the Decrypt PrivateKey Lambda function to retrieve and decrypt the user's private key from AWS DynamoDB using AWS KMS.
+     - It then interacts with the XRPL RPC to perform the necessary operations on the blockchain, including setting up Authorized Trust Lines.
+     - It also triggers the Transfer Stablecoin Lambda function.
+
+4. **Stablecoin Transfer**:
+   - The Transfer Stablecoin function manages the transfer of stablecoins from the user's wallet to the securitization company.
+   - It interacts with the XRPL RPC and ensures that the stablecoin transaction is recorded on the blockchain.
+   - The Transfer Stablecoin function then triggers the Transfer Financial Instrument Lambda function.
+
+5. **Financial Instrument Transfer**:
+   - The Transfer Financial Instrument function handles the transfer of financial instruments from the securitization company to the user's wallet, completing the investment purchase process.
+
+This comprehensive workflow ensures that all investment transactions are executed with the highest level of security and compliance, providing a trustworthy and efficient platform for investors and SMEs alike.
