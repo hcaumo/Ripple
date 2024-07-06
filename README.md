@@ -1,12 +1,8 @@
 # DREXFY
 
-**Drexfy** is a platform designed to facilitate the sale of credit from SMEs (Small and Medium-sized Enterprises) as securitized financial products to debt investors. The platform leverages the XRPL blockchain to issue financial instruments and stablecoins for accounting purposes.
+**Drexfy** Drexfy is an investment platform that facilitates the sale of SME (Small and Medium-sized Enterprises) credit as securitized financial products to debt investors in Europe. The platform leverages the XRPL blockchain to issue a non-collateralized stablecoin and financial instruments.
 
-The frontend is developed using Bubble.io, providing an intuitive user interface for investors. On the backend, AWS services handle all operations, including interactions with the XRPL ledger. Additionally, the platform integrates a third-party service for KYC and AML, receiving a WebHook to ensure compliance and enhance security for all transactions.
-
-## What is Drexfy?
-
-**Drexfy** enables the sale of securitized SME credits to investors in Europe. The credits are provided by a securitization company in Brazil, and the platform uses the XRPL blockchain to manage financial instruments and stablecoins. The platform ensures secure transactions through encrypted private keys stored in AWS DynamoDB and decrypted using AWS KMS.
+The frontend, developed with Bubble.io, offers an intuitive user interface for investors. On the backend, AWS services handle all operations, including interactions with the XRPL ledger. The platform also integrates a third-party service for KYC and AML checks, ensuring compliance and enhancing security through WebHook notifications.
 
 ## Requirements
 
@@ -15,6 +11,7 @@ The frontend is developed using Bubble.io, providing an intuitive user interface
 - AWS KMS
 - XRPL RPC access
 - Bubble.io for frontend interactions
+- Third-Party KYC/AML service
 
 ## Architecture
 
@@ -24,36 +21,33 @@ The architecture consists of several microservices deployed as AWS Lambda functi
 
 
 ## Components
-
-1. **User Interaction**
-   - Users interact with the platform through a Bubble.io frontend.
    
-2. **Bubble.io Frontend**
+1. **Bubble.io Frontend**
    - Provides the user interface for purchasing investments and interacting with their wallets by our backend.
 
-3. **AWS Lambda Microservices**
+2. **AWS Lambda Microservices**
    - **AML Checker**: Waits for a WebHook from a third-party service, as all users who register on the platform are in a screening process. If there is any change, this Lambda sends information to the frontend to block the user.
-   - **Wallet Generator**: Generates new wallets, encrypts private keys using Encrypt PrivateKey Lambda and KMS, deposits 10 XRP to activate the wallet, and supports Authorized Trust Lines in XRPL.
+   - **Wallet Generator**: Generates new wallets, encrypts private keys using Encrypt PrivateKey Lambda and KMS, deposits 15 XRP to activate the wallet, supports Authorized Trust Lines and transaction gas in XRPL.
    - **Deposit**: Handles bank deposit transactions and mints stablecoins in the user wallet. **Creates an Authorized Trust Line before receiving funds.**
    - **Transfer Financial Instrument**: Manages the transfer of financial instruments from the securitization company to user wallets.
-   - **Transfer Stablecoin**: Manages the transfer of stablecoins from the user wallet to the securitization company.
+   - **Transfer Stablecoin**: Manages the transfer of stablecoins from the user wallet to the securitization company wallet.
    - **Encrypt PrivateKey**: Encrypts private keys using AWS KMS.
    - **Decrypt PrivateKey**: Decrypts private keys using AWS KMS.
 
-4. **DynamoDB**
+3. **DynamoDB**
    - Stores encrypted private keys and user wallet addresses.
 
-5. **AWS KMS**
+4. **AWS KMS**
    - Provides encryption and decryption of private keys.
 
-6. **XRPL RPC**
-   - Interacts with smart contracts on the XRPL ledger for financial transactions. **Includes setting up Authorized Trust Lines.**
+5. **XRPL RPC**
+   - Interacts with smart contracts on the XRPL.
 
-7. **Smart Contracts**
+6. **Smart Contracts**
    - **Financial Instrument Smart Contract**
    - **Stablecoin Smart Contract**
 
-8. **Third-Party KYC/AML Service**
+7. **Third-Party KYC/AML Service**
    - Integrates with the platform via WebHook to perform KYC and AML checks, ensuring compliance and blocking users if their AML status changes.
 
 ## Process
@@ -116,14 +110,19 @@ In **Drexfy**, maintaining compliance with AML regulations is crucial. If a user
 
 This workflow ensures that **Drexfy** remains compliant with AML regulations.
 
-![webhook_notification_process](https://github.com/hcaumo/Ripple/assets/65081463/2066663a-83a9-457d-9dd4-c3fe8d7cbe5d)
+![webhook_notification_process](https://github.com/hcaumo/Ripple/assets/65081463/f15870fb-5f9a-4ecf-9b2b-47904e7cd2f9)
 
 1. **AML Rejection Notification**:
    - The third-party service continuously monitors users for any changes in their AML status.
-   - If a user is flagged for AML issues, the third-party service sends a WebHook notification to the Bubble.io frontend.
+   - If a user is flagged for AML issues, the third-party service sends a WebHook notification to the AML Checker Lambda function.
 
 2. **User Blocking**:
-   - Upon receiving the WebHook, Bubble.io updates the user's status in the database.
-   - The user's account is flagged, and they are blocked from making any purchases or Withdrawal on the platform until the issue is resolved.
+   - Upon receiving the WebHook, the AML Checker Lambda function notifies the Bubble.io frontend.
+   - The Bubble.io frontend updates the user's status in the database.
+   - The user's account is flagged, and they are blocked from making any purchases or withdrawals on the platform until the issue is resolved.
+
+
+
+
 
 
