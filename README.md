@@ -111,7 +111,7 @@ This process ensures that all users are thoroughly vetted before they can partic
 
 This comprehensive workflow ensures that all investment transactions are executed with the highest level of security and compliance, providing a trustworthy and efficient platform for investors and SMEs alike.
 
-### WebHook Notification Process
+### Compliance Process
 
 In **Drexfy**, maintaining compliance with AML regulations is crucial. If a user fails an AML check after registration, the platform takes immediate action to ensure security and compliance.
 
