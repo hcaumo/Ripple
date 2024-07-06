@@ -139,7 +139,7 @@ This workflow ensures that **Drexfy** remains compliant with AML regulations.
 
 1. **Setup AWS Environment**
 
-   Ensure you have an AWS account and the AWS CLI configured. Install necessary tools and create required IAM roles and policies. Make sure to set all necessary authorizations in IAM for the Lambda functions to read and write to DynamoDB and interact with other services.
+   Ensure you have an AWS account. Install necessary tools and create required IAM roles and policies. Make sure to set all necessary authorizations in IAM for the Lambda functions to read and write to DynamoDB and interact with other services.
 
 2. **Deploy DynamoDB**
 
@@ -147,7 +147,7 @@ This workflow ensures that **Drexfy** remains compliant with AML regulations.
 
 3. **Setup AWS KMS**
 
-   Create KMS keys for encrypting and decrypting private keys.
+   Create KMS key for encrypting and decrypting private keys.
 
 4. **Deploy Lambda Functions**
 
@@ -166,17 +166,13 @@ This workflow ensures that **Drexfy** remains compliant with AML regulations.
 
 6. **Setup Bubble.io Frontend**
 
-   Use Bubble.io to create the user interface for interacting with the platform. Integrate with AWS API Gateway for backend operations.
+   Use Bubble.io to create the user interface for interacting with the backend. Integrate with AWS API Gateway for backend operations.
 
-7. **Integrate with XRPL RPC**
-
-   Ensure secure access to XRPL RPC for interacting with smart contracts on the XRPL ledger. Implement Authorized Trust Lines setup.
-
-8. **Integrate Third-Party KYC/AML Service**
+7. **Integrate Third-Party KYC/AML Service**
 
    Configure the WebHook integration to receive updates on the KYC/AML status of users and take necessary actions within the platform.
 
-9. **Integrate Payment Gateway**
+8. **Integrate Payment Gateway**
 
    Set up the payment gateway to handle transactions and configure webhooks to trigger the Deposit Lambda function upon successful payment.
 
@@ -248,7 +244,7 @@ To ensure that all Lambda functions have the necessary permissions to interact w
 
    Assign the created IAM roles to the respective Lambda functions. This can be done in the AWS Management Console under the Lambda function's configuration or using the AWS CLI.
 
-By setting up these IAM roles and attaching the appropriate policies, you ensure that your Lambda functions have the necessary permissions to read and write from DynamoDB, encrypt and decrypt data with KMS, invoke API Gateway endpoints, and log to CloudWatch. This configuration is essential for the secure and efficient operation of the Drexfy platform.
+By setting up these IAM roles and attaching the appropriate policies, you ensure that your Lambda functions have the necessary permissions to read and write from DynamoDB, encrypt and decrypt data with KMS, invoke API Gateway endpoints, and log to CloudWatch.
 
 
 
