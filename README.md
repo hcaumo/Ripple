@@ -1,6 +1,8 @@
 # DREXFY
 
-**Drexfy** Drexfy is an investment platform that facilitates the sale of SME (Small and Medium-sized Enterprises) credit as securitized financial products to debt investors in Europe. The platform leverages the XRPL blockchain to issue a non-collateralized stablecoin and financial instruments.
+**Disclaimer:** The code uploaded here is a legacy version developed for an EVM blockchain. We are currently working on translating it to XRPL and adding new features.
+
+**Drexfy** is an investment platform that facilitates the sale of SME (Small and Medium-sized Enterprises) credit as securitized financial products to debt investors in Europe. The platform leverages the XRPL blockchain to issue a non-collateralized stablecoin and financial instruments.
 
 The frontend, developed with Bubble.io, offers an intuitive user interface for investors. On the backend, AWS services handle all operations, including interactions with the XRPL. The platform also integrates a third-party service for KYC and AML checks, ensuring compliance and enhancing security through WebHook notifications.
 
@@ -52,8 +54,6 @@ The architecture consists of several microservices deployed as AWS Lambda functi
    - Integrates with the platform via WebHook to perform KYC and AML checks, ensuring compliance and blocking users if their AML status changes.
 
 ## Process
-
-
 
 ### Register Process
 
@@ -128,6 +128,56 @@ This workflow ensures that **Drexfy** remains compliant with AML regulations.
    - Upon receiving the WebHook, the AML Checker Lambda function notifies the Bubble.io frontend.
    - The Bubble.io frontend updates the user's status in the database.
    - The user's account is flagged, and they are blocked from making any purchases or withdrawals on the platform until the issue is resolved.
+
+
+
+## Installation
+
+### Steps to Install and Configure
+
+1. **Setup AWS Environment**
+
+   Ensure you have an AWS account and the AWS CLI configured. Install necessary tools and create required IAM roles and policies. Make sure to set all necessary authorizations in IAM for the Lambda functions to read and write to DynamoDB and interact with other services.
+
+2. **Deploy DynamoDB**
+
+   Create a DynamoDB table to store encrypted private keys and user wallet addresses.
+
+3. **Setup AWS KMS**
+
+   Create KMS keys for encrypting and decrypting private keys.
+
+4. **Deploy Lambda Functions**
+
+   Deploy the following Lambda functions using the AWS Lambda console or AWS CLI:
+   - AML Checker
+   - Wallet Generator
+   - Deposit
+   - Transfer Financial Instrument
+   - Transfer Stablecoin
+   - Encrypt PrivateKey
+   - Decrypt PrivateKey
+
+5. **Configure API Gateway**
+
+   Set up API Gateway to trigger the Lambda functions based on API requests from Bubble.io.
+
+6. **Setup Bubble.io Frontend**
+
+   Use Bubble.io to create the user interface for interacting with the platform. Integrate with AWS API Gateway for backend operations.
+
+7. **Integrate with XRPL RPC**
+
+   Ensure secure access to XRPL RPC for interacting with smart contracts on the XRPL ledger. Implement Authorized Trust Lines setup.
+
+8. **Integrate Third-Party KYC/AML Service**
+
+   Configure the WebHook integration to receive updates on the KYC/AML status of users and take necessary actions within the platform.
+
+9. **Integrate Payment Gateway**
+
+   Set up the payment gateway to handle transactions and configure webhooks to trigger the Deposit Lambda function upon successful payment.
+
 
 
 
