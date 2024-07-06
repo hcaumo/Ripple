@@ -178,6 +178,77 @@ This workflow ensures that **Drexfy** remains compliant with AML regulations.
 
    Set up the payment gateway to handle transactions and configure webhooks to trigger the Deposit Lambda function upon successful payment.
 
+   ### AWS IAM Permissions
+
+To ensure that all Lambda functions have the necessary permissions to interact with other AWS services, follow these steps to configure AWS IAM roles and policies:
+
+1. **Create IAM Roles for Lambda Functions**
+
+   For each Lambda function, create a dedicated IAM role that grants the necessary permissions. You can create roles in the AWS Management Console or using the AWS CLI.
+
+2. **Attach Policies to IAM Roles**
+
+   Attach policies to each IAM role to grant the required permissions. Below are the key permissions needed for the Drexfy platform:
+
+   - **DynamoDB Access**:
+     ```json
+     {
+       "Effect": "Allow",
+       "Action": [
+         "dynamodb:GetItem",
+         "dynamodb:PutItem",
+         "dynamodb:UpdateItem",
+         "dynamodb:Query",
+         "dynamodb:Scan"
+       ],
+       "Resource": "arn:aws:dynamodb:REGION:ACCOUNT_ID:table/TABLE_NAME"
+     }
+     ```
+
+   - **KMS Access**:
+     ```json
+     {
+       "Effect": "Allow",
+       "Action": [
+         "kms:Encrypt",
+         "kms:Decrypt",
+         "kms:GenerateDataKey"
+       ],
+       "Resource": "arn:aws:kms:REGION:ACCOUNT_ID:key/KEY_ID"
+     }
+     ```
+
+   - **API Gateway Invocation**:
+     ```json
+     {
+       "Effect": "Allow",
+       "Action": [
+         "execute-api:Invoke"
+       ],
+       "Resource": "arn:aws:execute-api:REGION:ACCOUNT_ID:API_ID/*"
+     }
+     ```
+
+   - **CloudWatch Logs Access**:
+     ```json
+     {
+       "Effect": "Allow",
+       "Action": [
+         "logs:CreateLogGroup",
+         "logs:CreateLogStream",
+         "logs:PutLogEvents"
+       ],
+       "Resource": "*"
+     }
+     ```
+
+3. **Assign IAM Roles to Lambda Functions**
+
+   Assign the created IAM roles to the respective Lambda functions. This can be done in the AWS Management Console under the Lambda function's configuration or using the AWS CLI.
+
+By setting up these IAM roles and attaching the appropriate policies, you ensure that your Lambda functions have the necessary permissions to read and write from DynamoDB, encrypt and decrypt data with KMS, invoke API Gateway endpoints, and log to CloudWatch. This configuration is essential for the secure and efficient operation of the Drexfy platform.
+
+
 
 
 
