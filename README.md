@@ -1,4 +1,4 @@
-# SME Investment Platform
+# Drexfy
 
 **Drexfy** is a platform designed to facilitate the sale of credit from SMEs (Small and Medium-sized Enterprises) as securitized financial products to debt investors. The platform leverages the XRPL blockchain to issue financial instruments and stablecoins for accounting purposes.
 
@@ -48,40 +48,6 @@ The frontend is developed using Bubble.io, providing an intuitive user interface
 
 8. **Third-Party KYC/AML Service**
    - Integrates with the platform via WebHook to perform KYC and AML checks, ensuring compliance and blocking users if their AML status changes.
-
-## Running the Service
-
-1. **User Operations**
-
-   - Users can create wallets, make deposits, and purchase financial instruments or stablecoins through the Bubble.io frontend.
-
-2. **AML Check**
-
-   - The AML Checker Lambda function waits for a WebHook from a third-party service, as all users who register on the platform are in a screening process. If there is any change, this Lambda sends information to the frontend to block the user.
-
-3. **Wallet Generation and Encryption**
-
-   - The Wallet Generator Lambda function generates wallets, encrypts private keys using the Encrypt PrivateKey Lambda function and KMS, deposits 10 XRP to activate the wallet, and supports Authorized Trust Lines in XRPL.
-
-4. **Purchasing Investments**
-
-   - When a user tries to purchase an investment, Bubble.io sends a request to AWS, triggering a Lambda function that retrieves the private key from DynamoDB, decrypts it using KMS, and performs the transaction on the XRPL ledger.
-
-5. **Setting Up Authorized Trust Line**
-
-   - Before a deposit is accepted, the platform must create an authorized trust line. The **Deposit** Lambda function includes a step to create the authorized trust line using XRPL RPC before minting stablecoins in the user's wallet.
-
-## Monitoring the Service
-
-1. **CloudWatch Monitoring**
-
-   - Use AWS CloudWatch to monitor Lambda functions and DynamoDB for performance and errors.
-
-2. **Logs and Alerts**
-
-   - Configure logs and alerts for real-time monitoring and issue resolution.
-
-## Process
 
 ### Register Process
 
