@@ -78,28 +78,30 @@ This process ensures that all users are thoroughly vetted before they can partic
 
 **Drexfy** provides a seamless experience for investors looking to purchase securitized SME credits. The platform leverages advanced blockchain technology and robust AWS services to manage and execute these transactions securely and efficiently.
 
-![buy_investment_process](https://github.com/hcaumo/Ripple/assets/65081463/7ff73f5b-9f89-497c-a82f-6bf21db1da4a)
+![buy_investment_process](https://github.com/hcaumo/Ripple/assets/65081463/ff567e70-46c4-4f44-b675-cc0d25d0624e)
 
-**Investment Purchase Workflow:**
+### Investment Purchase Workflow:
 
 1. **User Initiation**:
-   - The investment purchase process begins when a user initiates a purchase through the Bubble.io frontend.
+    - The investment purchase process begins when a user initiates a purchase through the Bubble.io frontend and opens the payment gateway checkout.
+    - Bubble.io retrieves the user's wallet address from the Bubble.io database.
 
-2. **Triggering Backend Services**:
-   - Bubble.io sends a request to the AWS API Gateway, which triggers the Deposit Lambda function.
+2. **Payment Gateway Interaction**:
+    - The payment gateway processes the payment and sends a webhook to the AWS API Gateway, which triggers the Deposit Lambda function.
 
 3. **Deposit Handling**:
-   - The Deposit Lambda function performs several tasks:
-     - It first triggers the Decrypt PrivateKey Lambda function to retrieve and decrypt the user's private key from AWS DynamoDB using AWS KMS.
-     - It then interacts with the XRPL RPC to setting up Authorized Trust Lines and issue the equivalent stablecoin amount to the user wallet.
-     - It also triggers the Transfer Stablecoin Lambda function.
+    - The Deposit Lambda function performs several tasks:
+        - It first triggers the Decrypt PrivateKey Lambda function to retrieve and decrypt the user's private key from AWS DynamoDB using AWS KMS.
+        - It then interacts with the XRPL RPC to set up Authorized Trust Lines and issue the equivalent stablecoin amount to the user's wallet.
+        - It also triggers the Transfer Stablecoin Lambda function.
 
 4. **Stablecoin Transfer**:
-   - The Transfer Stablecoin function manages the transfer of stablecoins from the user's wallet to the securitization company wallet.
-   - The Transfer Stablecoin function then triggers the Transfer Financial Instrument Lambda function.
+    - The Transfer Stablecoin function manages the transfer of stablecoins from the user's wallet to the securitization company's wallet.
+    - The Transfer Stablecoin function then triggers the Transfer Financial Instrument Lambda function.
 
 5. **Financial Instrument Transfer**:
-   - The Transfer Financial Instrument function handles the transfer of financial instruments from the securitization company wallet to the user's wallet, completing the investment purchase process.
+    - The Transfer Financial Instrument function handles the transfer of financial instruments from the securitization company's wallet to the user's wallet, completing the investment purchase process.
+
 
 
 ### Compliance Process
