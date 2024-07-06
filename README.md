@@ -1,6 +1,9 @@
 # DREXFY
 
-**Disclaimer:** The code uploaded here is a legacy version developed for an EVM blockchain. We are currently working on translating it to XRPL and adding new features.
+## Disclaimer: 
+**The code uploaded here is a legacy version developed for an EVM blockchain. We are currently working on translating it to XRPL and adding new features.**
+
+## Platform:
 
 **Drexfy** is an investment platform that facilitates the sale of SME (Small and Medium-sized Enterprises) credit as securitized financial products to debt investors in Europe. The platform leverages the XRPL blockchain to issue a non-collateralized stablecoin and financial instruments.
 
