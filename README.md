@@ -82,7 +82,7 @@ This process ensures that all users are thoroughly vetted before they can partic
 
 
 
-### Investment Purchase Workflow:
+**Buy Investment Workflow:**
 
 ![buy_investment_process](https://github.com/hcaumo/Ripple/assets/65081463/ff567e70-46c4-4f44-b675-cc0d25d0624e)
 
