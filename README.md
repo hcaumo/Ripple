@@ -54,6 +54,11 @@ The architecture consists of several microservices deployed as AWS Lambda functi
 
 7. **Third-Party KYC/AML Service**
    - Integrates with the platform via WebHook to perform KYC and AML checks, ensuring compliance and blocking users if their AML status changes.
+     
+7. **Third-Party Payment Gateway**
+   - Processes payment transactions and sends WebHook notifications to the AWS API Gateway to trigger the Deposit Lambda function, initiating the investment purchase process.
+
+
 
 ## Process
 
@@ -63,7 +68,7 @@ The registration process is a component of the platform, ensuring that all users
 
 **Registration Workflow:**
 
-![register_process](https://github.com/hcaumo/Ripple/assets/65081463/3996b464-5764-43ea-b062-dbc903403574)
+![register_process](https://github.com/hcaumo/Ripple/assets/65081463/cf246310-6b47-4c5f-84a5-b46ca7234e33)
 
 
 1. **User Registration**:
@@ -120,7 +125,7 @@ In **Drexfy**, maintaining compliance with AML regulations is crucial. If a user
 
 This workflow ensures that **Drexfy** remains compliant with AML regulations.
 
-![webhook_notification_process](https://github.com/hcaumo/Ripple/assets/65081463/f15870fb-5f9a-4ecf-9b2b-47904e7cd2f9)
+![webhook_notification_process](https://github.com/hcaumo/Ripple/assets/65081463/7092878f-89f9-48a1-a3de-b86898c13b95)
 
 1. **AML Rejection Notification**:
    - The third-party service continuously monitors users for any changes in their AML status.
