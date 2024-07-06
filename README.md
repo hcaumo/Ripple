@@ -22,7 +22,6 @@ The frontend is developed using Bubble.io, providing an intuitive user interface
 
 The architecture consists of several microservices deployed as AWS Lambda functions, interacting with DynamoDB and XRPL RPC. The system includes AML checks to ensure compliance and secure transactions.
 
-![architecture_overview](https://github.com/hcaumo/Ripple/assets/65081463/914ca162-c1ca-490d-8e6c-0f4f0f0343ec)
 
 ## Components
 
@@ -56,83 +55,6 @@ The architecture consists of several microservices deployed as AWS Lambda functi
 
 8. **Third-Party KYC/AML Service**
    - Integrates with the platform via WebHook to perform KYC and AML checks, ensuring compliance and blocking users if their AML status changes.
-
-## Installation
-
-This platform is known to run on AWS, Bubble.io, and XRPL.
-
-### Steps to Install and Configure
-
-1. **Setup AWS Environment**
-
-   Ensure you have an AWS account and the AWS CLI configured. Install necessary tools and create required IAM roles and policies.
-
-2. **Deploy DynamoDB**
-
-   Create a DynamoDB table to store encrypted private keys and user wallet addresses.
-
-3. **Setup AWS KMS**
-
-   Create KMS keys for encrypting and decrypting private keys.
-
-4. **Deploy Lambda Functions**
-
-   Deploy the following Lambda functions using the AWS Lambda console or AWS CLI:
-   - AML Checker
-   - Wallet Generator
-   - Deposit
-   - Transfer Financial Instrument
-   - Transfer Stablecoin
-   - Encrypt PrivateKey
-   - Decrypt PrivateKey
-
-5. **Configure API Gateway**
-
-   Set up API Gateway to trigger the Lambda functions based on API requests from Bubble.io.
-
-6. **Setup Bubble.io Frontend**
-
-   Use Bubble.io to create the user interface for interacting with the platform. Integrate with AWS API Gateway for backend operations.
-
-7. **Integrate with XRPL RPC**
-
-   Ensure secure access to XRPL RPC for interacting with smart contracts on the XRPL ledger. **Implement Authorized Trust Lines setup.**
-
-8. **Integrate Third-Party KYC/AML Service**
-
-   Configure the WebHook integration to receive updates on the KYC/AML status of users and take necessary actions within the platform.
-
-## Running the Service
-
-1. **User Operations**
-
-   - Users can create wallets, make deposits, and purchase financial instruments or stablecoins through the Bubble.io frontend.
-
-2. **AML Check**
-
-   - The AML Checker Lambda function waits for a WebHook from a third-party service, as all users who register on the platform are in a screening process. If there is any change, this Lambda sends information to the frontend to block the user.
-
-3. **Wallet Generation and Encryption**
-
-   - The Wallet Generator Lambda function generates wallets, encrypts private keys using the Encrypt PrivateKey Lambda function and KMS, deposits 10 XRP to activate the wallet, and supports Authorized Trust Lines in XRPL.
-
-4. **Purchasing Investments**
-
-   - When a user tries to purchase an investment, Bubble.io sends a request to AWS, triggering a Lambda function that retrieves the private key from DynamoDB, decrypts it using KMS, and performs the transaction on the XRPL ledger.
-
-5. **Setting Up Authorized Trust Line**
-
-   - Before a deposit is accepted, the platform must create an authorized trust line. The **Deposit** Lambda function includes a step to create the authorized trust line using XRPL RPC before minting stablecoins in the user's wallet.
-
-## Monitoring the Service
-
-1. **CloudWatch Monitoring**
-
-   - Use AWS CloudWatch to monitor Lambda functions and DynamoDB for performance and errors.
-
-2. **Logs and Alerts**
-
-   - Configure logs and alerts for real-time monitoring and issue resolution.
 
 ## Narratives
 
