@@ -12,6 +12,7 @@ The frontend, developed with Bubble.io, offers an intuitive user interface for i
 - XRPL RPC access
 - Bubble.io for frontend interactions
 - Third-Party KYC/AML service
+- Third-Party Payment Gateway
 
 ## Architecture
 
